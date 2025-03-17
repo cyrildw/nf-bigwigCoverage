@@ -36,20 +36,20 @@ process R_BED_COVERAGE {
         start(bed_ext_gr)[start(bed_ext_gr)<1] = 1
         end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 
-        cat(paste("#### Bed bined start", date(), "####", "", sep="\n"))
+        cat(paste("'### Bed bined start'", date(), "'####'", "''", sep='"\n"''))
 
         #Creating GR bined bed object with extended coordinates according to configuration (Takes a bit of time)
         cl=makeCluster(Threads)
         clusterEvalQ(cl, source($params.rfunction))
-        clusterExport(cl, c("bed_gr","BedRFinalLength","BedExtLengthLeft", "BedExtension",
-                            "BedExtLengthRight", "BedExtValLeft","BedExtValRight"))
+        clusterExport(cl, c("'bed_gr'","'BedRFinalLength'","'BedExtLengthLeft'", "'BedExtension'",
+                            "'BedExtLengthRight'", "'BedExtValLeft'","'BedExtValRight'"))
         res_bin_bed <- parLapply(cl, c(1:length(bed_gr)), function(y) 
         make_scaled_coords(bed_gr[y], FinalBins = BedRFinalLength,
                     Extention = BedExtension, Ext_length = c(BedExtLengthLeft, BedExtLengthRight),
                     Ext_value = c(BedExtValLeft,BedExtValRight)))
         stopCluster(cl)
-        bed_bin_gr=unlist(as(res_bin_bed, "GRangesList"))
-        bed_bin_fname=paste0(strsplit(basename(BedFile), split=".bed")[[1]][1], 
+        bed_bin_gr=unlist(as(res_bin_bed, "'GRangesList'"))
+        bed_bin_fname=paste0(strsplit(basename(BedFile), split="'.bed'")[[1]][1], 
                             '_Ex', BedExtension,'L',BedExtLengthLeft, 'R', BedExtLengthRight,
                             'Vl',BedExtValLeft,'Vr',BedExtValRight, ".bed")
         export.bed(bed_bin_gr,con=bed_bin_fname)
