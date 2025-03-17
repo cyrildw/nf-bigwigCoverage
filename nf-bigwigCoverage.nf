@@ -12,6 +12,7 @@ ch_BW_design_csv.map { it -> [ it[0], it[3]]}
                         files: it[1]}
     .set{ch_flat_BW}
 ch_flat_BW.labels.collect().view()
+ch_flat_BW.files.collect().view()
 //ch_flat_BW.labels.view()
 //ch_design_reads_csv.view()
 
