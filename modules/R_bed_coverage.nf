@@ -5,7 +5,7 @@ process R_BED_COVERAGE {
     //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
     
     input:
-    path(params.rfunction)
+    path(rfunction)
     tuple val(BedName), path(BedFile), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength), val(BedExtension), val(BedExtValLeft), val(BedExtValRight)
     val(BwName)
     path(BwFile)
@@ -15,7 +15,7 @@ process R_BED_COVERAGE {
     """
     echo "R --no-save --no-restore --slave <<RSCRIPT
         R.Version()
-        RfunctionFile="$params.rfunction"
+        RfunctionFile="$rfunction"
         BedName="${BedName}"
         BedFile="${BedFile}"
         if(${BedExtension}=='false'){BedExtension=FALSE}

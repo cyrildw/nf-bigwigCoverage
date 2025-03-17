@@ -16,8 +16,6 @@ ch_flat_BW.files.collect().view()
 //ch_flat_BW.labels.view()
 //ch_design_reads_csv.view()
 
-Channel.fromPath(params.rfunction).set(ch_rfunc)
-
 //
 // MODULE LOAD
 //
@@ -43,5 +41,5 @@ Channel
 ch_BED_design_csv.view()
 
 workflow {
-    R_BED_COVERAGE(ch_rfunc, ch_BED_design_csv,ch_flat_BW.labels.collect(), ch_flat_BW.files.collect() )
+    R_BED_COVERAGE(file(params.rfunction), ch_BED_design_csv,ch_flat_BW.labels.collect(), ch_flat_BW.files.collect() )
 }
