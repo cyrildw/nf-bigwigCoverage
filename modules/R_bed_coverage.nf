@@ -5,7 +5,7 @@ process R_BED_COVERAGE {
     //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
     
     input:
-    tuple BedName, file(BedFile), BedExtLengthLeft, BedExtLengthRight, BedRFinalLength, BedExtension, BedExtValLeft, BedExtValRight 
+    tuple val(BedName), file(BedFile), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength), val(BedExtension), val(BedExtValLeft), val(BedExtValRight)
     tuple val(BwName),
     tuple path(BwFile)
 // path genome
