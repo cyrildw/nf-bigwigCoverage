@@ -3,7 +3,7 @@ i=0
 Channel
       .fromPath(params.bigwig_design)
       .splitCsv(header:true, sep:';')
-      .map { row -> [ row.Name, i++, file("$params.input_dir/$row.BWfile", checkIfExists: true)]}
+      .map { row -> [ row.BwName, i++, file("$params.input_dir/$row.Bwfile", checkIfExists: true)]}
       .set { ch_BW_design_csv}
 
 ch_flat_BW=ch_BW_design_csv.collect()
@@ -31,7 +31,7 @@ Channel
 		row.BedExtValLeft,     // Used by R, how much of the FinalLength should the upstream extension represent
         row.BedExtValRight]     // Used by R, how much of the FinalLength should the upstream extension represent
         }
-    .into { ch_BED_design_csv }
+    .set { ch_BED_design_csv }
 
 ch_BED_bw_combined=ch_BED_design_csv.combine(ch_flat_BW) | map { bed, bw_list -> tuple(bed[0], bed[1], bed[2], bed[3], bed[4], bed[5], bed[6], 
                                                                                         bw_list[0], bw_list[2] )}
