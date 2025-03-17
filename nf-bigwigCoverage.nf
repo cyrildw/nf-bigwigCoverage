@@ -6,7 +6,11 @@ Channel
       .map { row -> [ row.BwName, i++, file("$params.input_dir/$row.BwFile", checkIfExists: true)]}
       .set { ch_BW_design_csv}
 ch_BW_design_csv.view()
-ch_flat_BW=ch_BW_design_csv.collect()
+
+ch_BW_design_csv.map { it -> [ it[0], it[3]]}
+    .multiMap { it ->   labels: it[0]
+                        files: it[1]}
+    .set{ch_BW_flat}
 ch_flat_BW.view()
 //ch_design_reads_csv.view()
 
@@ -34,7 +38,5 @@ Channel
         }
     .set { ch_BED_design_csv }
 
-ch_BED_bw_combined=ch_BED_design_csv.combine(ch_flat_BW) | map { bed, bw_list -> tuple(bed[0], bed[1], bed[2], bed[3], bed[4], bed[5], bed[6], bed[7],
-                                                                                        bw_list[0], bw_list[2] )}
-
+ch_BED_bw_combined=ch_BED_design_csv.combine(ch_flat_BW)
 ch_BED_bw_combined.view()
