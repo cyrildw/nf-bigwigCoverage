@@ -1,6 +1,7 @@
-process R_BED_COVERAGE{
-    tag "$BedName:$BedExtension-$BedExtLengthLeft:$BedExtLengthRight"
+process R_BED_COVERAGE {
     label 'multiCpu'
+    //tag "$BedName:$BedExtension-$BedExtLengthLeft:$BedExtLengthRight"
+    
     //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
     
     input:
@@ -11,7 +12,6 @@ process R_BED_COVERAGE{
 
     script:
     """
-    echo "Processing BED: ${BedName} (${bed_file})
-    ${BwName[@]}"
+    echo "Processing BED: ${BedName} (${bed_file})"
     """
 }

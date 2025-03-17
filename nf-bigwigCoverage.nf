@@ -19,7 +19,7 @@ ch_flat_BW.labels.collect().view()
 //
 // MODULE LOAD
 //
-include { R_BED_COVERAGE as R_BED_COVERAGE     } from './modules/R_bed_coverage'
+include { R_BED_COVERAGE } from './modules/R_bed_coverage'
 
 
 Channel
