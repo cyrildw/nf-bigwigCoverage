@@ -6,7 +6,7 @@ process R_BED_COVERAGE {
     
     input:
     tuple val(BedName), file(BedFile), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength), val(BedExtension), val(BedExtValLeft), val(BedExtValRight)
-    tuple val(BwName),
+    tuple val(BwName)
     tuple path(BwFile)
 // path genome
 
