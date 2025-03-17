@@ -6,12 +6,12 @@ process R_BED_COVERAGE {
     
     input:
     tuple val(BedName), file(BedFile), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength), val(BedExtension), val(BedExtValLeft), val(BedExtValRight)
-    tuple val(BwName)
-    tuple path(BwFile)
+    val(BwName)
+    path(BwFile)
 // path genome
 
     script:
     """
-    echo "Processing BED: ${BedName} (${bed_file})"
+    echo "Processing BED: ${BedName} (${BedFile})"
     """
 }
