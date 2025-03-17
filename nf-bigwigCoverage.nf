@@ -11,7 +11,7 @@ ch_BW_design_csv.map { it -> [ it[0], it[3]]}
     .multiMap { it ->   labels: it[0]
                         files: it[1]}
     .set{ch_flat_BW}
-ch_flat_BW.labels.view()
+ch_flat_BW.labels.collect().view()
 //ch_flat_BW.labels.view()
 //ch_design_reads_csv.view()
 
@@ -19,7 +19,7 @@ ch_flat_BW.labels.view()
 //
 // MODULE LOAD
 //
-//include { R_BED_COVERAGE as R_BED_COVERAGE     } from './modules/R_bed_coverage'
+include { R_BED_COVERAGE as R_BED_COVERAGE     } from './modules/R_bed_coverage'
 
 
 Channel
@@ -38,6 +38,7 @@ Channel
         row.BedExtValRight]     // Used by R, how much of the FinalLength should the upstream extension represent
         }
     .set { ch_BED_design_csv }
+ch_BED_design_csv.view()
 
-ch_BED_bw_combined=ch_BED_design_csv.combine(ch_flat_BW)
-ch_BED_bw_combined.view()
+workflow {
+    R_BED_COVERAGE( ch_BED_design_csv,ch_flat_BW.labels.collect(), ch_flat_BW.files.collect() )
