@@ -1,0 +1,3 @@
+BedName;BedFile;BedExtLengthLeft;BedExtLengthRight;BedRFinalLength;BedExtension;BedExtValLeft;BedExtValRight
+TSS;TSS.SacCer3.bed;500;500;100;true;49;50
+GENES;GENES.SacCer3.bed;500;500;100;true;20;20
