@@ -1,7 +1,7 @@
 nextflow.enable.dsl = 2
 i=0
 Channel
-      .fromPath(params.biwig_design)
+      .fromPath(params.bigwig_design)
       .splitCsv(header:true, sep:';')
       .map { row -> [ row.Name, i++, file("$params.input_dir/$row.BWfile", checkIfExists: true)]}
       .set { ch_BW_design_csv}
