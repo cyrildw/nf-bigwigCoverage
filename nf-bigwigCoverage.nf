@@ -7,7 +7,7 @@ Channel
       .set { ch_BW_design_csv}
 ch_BW_design_csv.view()
 
-ch_BW_design_csv.map { it -> [ it[0], it[3]]}
+ch_BW_design_csv.map { it -> [ it[0], it[2]]}
     .multiMap { it ->   labels: it[0]
                         files: it[1]}
     .set{ch_flat_BW}
