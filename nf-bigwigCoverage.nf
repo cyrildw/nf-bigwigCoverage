@@ -11,7 +11,8 @@ ch_BW_design_csv.map { it -> [ it[0], it[3]]}
     .multiMap { it ->   labels: it[0]
                         files: it[1]}
     .set{ch_flat_BW}
-ch_flat_BW.view()
+ch_flat_BW.labels.view()
+//ch_flat_BW.labels.view()
 //ch_design_reads_csv.view()
 
 
