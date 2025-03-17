@@ -12,6 +12,6 @@ process R_BED_COVERAGE {
 
     script:
     """
-    echo "Processing BED: ${BedName} (${BedFile})"
+    echo "Processing BED: #"
     """
 }
