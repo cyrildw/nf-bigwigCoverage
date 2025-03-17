@@ -5,7 +5,7 @@ Channel
       .splitCsv(header:true, sep:';')
       .map { row -> [ row.BwName, i++, file("$params.input_dir/$row.BwFile", checkIfExists: true)]}
       .set { ch_BW_design_csv}
-
+ch_BW_design_csv.view()
 ch_flat_BW=ch_BW_design_csv.collect()
 ch_flat_BW.view()
 //ch_design_reads_csv.view()
