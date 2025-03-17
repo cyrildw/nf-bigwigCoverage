@@ -42,3 +42,4 @@ ch_BED_design_csv.view()
 
 workflow {
     R_BED_COVERAGE( ch_BED_design_csv,ch_flat_BW.labels.collect(), ch_flat_BW.files.collect() )
+}
