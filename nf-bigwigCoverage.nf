@@ -16,7 +16,7 @@ ch_flat_BW.files.collect().view()
 //ch_flat_BW.labels.view()
 //ch_design_reads_csv.view()
 
-ch_rfunc=fromPath(params.rfunction)
+Channel.fromPath(params.rfunction).set(ch_rfunc)
 
 //
 // MODULE LOAD
