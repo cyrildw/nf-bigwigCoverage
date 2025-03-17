@@ -3,7 +3,7 @@ i=0
 Channel
       .fromPath(params.bigwig_design)
       .splitCsv(header:true, sep:';')
-      .map { row -> [ row[0], i++, file("$params.input_dir/$row[1]", checkIfExists: true)]}
+      .map { row -> [ row.BwName, i++, file("$params.input_dir/$row.BwFile", checkIfExists: true)]}
       .set { ch_BW_design_csv}
 
 ch_flat_BW=ch_BW_design_csv.collect()
