@@ -5,9 +5,10 @@ process R_BED_COVERAGE {
     //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
     
     input:
+    path($params.rfunction)
     tuple val(BedName), path(BedFile), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength), val(BedExtension), val(BedExtValLeft), val(BedExtValRight)
     val(BwName)
-    val(BwFile)
+    path(BwFile)
 // path genome
 
     script:
@@ -25,7 +26,7 @@ process R_BED_COVERAGE {
         BedExtValLeft=${BedExtValLeft}
         BedExtValRight=${BedExtValRight}
 
-        bw_fpath=$params.input_dir
+        bw_fpath=\"$params.input_dir\"
         bw_fnames=c('${BwName.join('\',\'')}')
         bw_names=c('${BwFile.join('\',\'')}')
 
