@@ -54,7 +54,7 @@ process R_BED_COVERAGE {
                             'Vl',BedExtValLeft,'Vr',BedExtValRight, ".bed")
         export.bed(bed_bin_gr,con=bed_bin_fname)
 
-        cat(paste("#### Bed bined end", date(), "####", "", sep="\n"))
+        cat(paste("#### Bed bined end", date(), "####", "", sep="\\n"))
 
         # Getting coverage from bigwig files on binned coordinates
         bw_fpath=$params.input_dir
@@ -84,7 +84,7 @@ process R_BED_COVERAGE {
         return(data)
         })
         stopCluster(cl)
-        cat(paste("#### end", date(), "####", "", sep="\n"))
+        cat(paste("#### end", date(), "####", "", sep="\\n"))
         names(res4)=bw_names
         bedData=res4
         save(bedData, file=paste0(BedName,".binned.R")
