@@ -1,7 +1,7 @@
-process R_BED_COVERAGE {
+process R_BED_COVERAGE{
     tag "$BedName:$BedExtension-$BedExtLengthLeft:$BedExtLengthRight"
     label 'multiCpu'
-    publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
+    //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
     
     input:
     tuple BedName, file(BedFile), BedExtLengthLeft, BedExtLengthRight, BedRFinalLength, BedExtension, BedExtValLeft, BedExtValRight 
@@ -9,7 +9,7 @@ process R_BED_COVERAGE {
     tuple path(BwFile)
 // path genome
 
-    output:
+    script:
     """
     echo "Processing BED: ${BedName} (${bed_file})
     ${BwName[@]}"
