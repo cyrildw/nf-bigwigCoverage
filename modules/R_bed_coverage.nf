@@ -19,8 +19,8 @@ process R_BED_COVERAGE {
         RfunctionFile=\\"$rfunction\\"
         BedName=\\"${BedName}\\"
         BedFile=\\"${BedFile}\\"
-        if(${BedExtension}=='false'){BedExtension=FALSE}
-        if(${BedExtension}=='true'){BedExtension=TRUE}
+        if('${BedExtension}'=='false'){BedExtension=FALSE}
+        if('${BedExtension}'=='true'){BedExtension=TRUE}
         BedExtLengthLeft=${BedExtLengthLeft}
         BedExtLengthRight=${BedExtLengthRight}
         BedRFinalLength=${BedRFinalLength}
