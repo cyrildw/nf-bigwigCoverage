@@ -16,9 +16,9 @@ process R_BED_COVERAGE {
     """
     echo "R --no-save --no-restore --slave <<RSCRIPT
         R.Version()
-        RfunctionFile=\"$rfunction\"
-        BedName=\"${BedName}\"
-        BedFile=\"${BedFile}\"
+        RfunctionFile=\\"$rfunction\\"
+        BedName=\\"${BedName}\\"
+        BedFile=\\"${BedFile}\\"
         if(${BedExtension}=='false'){BedExtension=FALSE}
         if(${BedExtension}=='true'){BedExtension=TRUE}
         BedExtLengthLeft=${BedExtLengthLeft}
@@ -27,11 +27,11 @@ process R_BED_COVERAGE {
         BedExtValLeft=${BedExtValLeft}
         BedExtValRight=${BedExtValRight}
 
-        bw_fpath=\"$params.input_dir\"
+        bw_fpath=\\"$params.input_dir\\"
         bw_fnames=c('${BwName.join('\',\'')}')
         bw_names=c('${BwFile.join('\',\'')}')
         Threads=20
-        source(\"$rExec\")
+        source(\\"$rExec\\")
     " > r_GetCoverage_$BedName
     bash  r_GetCoverage_$BedName
     """
