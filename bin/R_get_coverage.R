@@ -12,7 +12,7 @@ cat(paste("#### Bed bined start", date(), "####", "", sep="\n"))
 
 #Creating GR bined bed object with extended coordinates according to configuration (Takes a bit of time)
 cl=makeCluster(Threads)
-clusterEvalQ(cl, source(RfunctionFile)
+clusterEvalQ(cl, source(RfunctionFile))
 clusterExport(cl, c("bed_gr","BedRFinalLength","BedExtLengthLeft", "BedExtension",
                     "BedExtLengthRight", "BedExtValLeft","BedExtValRight"))
 res_bin_bed <- parLapply(cl, c(1:length(bed_gr)), function(y) 
