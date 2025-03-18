@@ -30,10 +30,11 @@ Channel
         //file("$params.input_dir/$row.BedGroupFile"),
 		//row.BedDTlength, //Used by Deeptools for -m option in plot heatmap
         //row.BedReferencePoint, //Used by Deeptools in opposition to "scale-region"
-		row.BedExtLengthLeft,  //Used by Deeptools and R to extend the bed coordinates upstream
+		row.BedExtension,      // Should the bed coordinates be extended
+        row.BedCustomScaling,      // Should the extended coordinates be scaled according to ExtVal
+        row.BedExtLengthLeft,  //Used by Deeptools and R to extend the bed coordinates upstream
 		row.BedExtLengthRight, //Used by Deeptools and R to extend the bed coordinates downstream
 		row.BedRFinalLength,    //Used by R to set the final length of the vector
-		row.BedExtension,      // Should the bed coordinates be extended
 		row.BedExtValLeft,     // Used by R, how much of the FinalLength should the upstream extension represent
         row.BedExtValRight]     // Used by R, how much of the FinalLength should the upstream extension represent
         }

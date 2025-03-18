@@ -3,22 +3,35 @@ bed_gr=import(BedFile)
 bed_ext_gr=bed_gr
 
 #Creating GR bed object with extended coordinates
-start(bed_ext_gr)=start(bed_gr)-1-BedExtLengthLeft
-if(sum(start(bed_ext_gr)<1)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<1), ' invervals are out of chromosomal range (start)')}
-start(bed_ext_gr)[start(bed_ext_gr)<1] = 1
-end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
+if(BedExtention){
+    start(bed_ext_gr)=start(bed_gr)-1-BedExtLengthLeft
+    if(sum(start(bed_ext_gr)<1)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<1), ' invervals are out of chromosomal range (start)')}
+    start(bed_ext_gr)[start(bed_ext_gr)<1] = 1
+    end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
+}
 
 cat(paste("#### Bed bined start", date(), "####", "", sep="\n"))
 
-#Creating GR bined bed object with extended coordinates according to configuration (Takes a bit of time)
+#Creating GR bined bed object with extended coordinates according to configuration (Takes a bit of time)+
+system(paste0("ln -s ",RfunctionFile, " MyFunctionsToLoad.R "))
 cl=makeCluster(Threads)
-clusterEvalQ(cl, source(RfunctionFile))
+clusterEvalQ(cl, source("MyFunctionsToLoad.R"))
 clusterExport(cl, c("bed_gr","BedRFinalLength","BedExtLengthLeft", "BedExtension",
                     "BedExtLengthRight", "BedExtValLeft","BedExtValRight"))
-res_bin_bed <- parLapply(cl, c(1:length(bed_gr)), function(y) 
-make_scaled_coords(bed_gr[y], FinalBins = BedRFinalLength,
-            Extention = BedExtension, Ext_length = c(BedExtLengthLeft, BedExtLengthRight),
-            Ext_value = c(BedExtValLeft,BedExtValRight)))
+if(BedCustomScaling){
+    # In case of custom scaling, we use the initial bed and scales the extentions differently
+    # If there is no bed extension, the custom scaling will not change anything.
+    res_bin_bed <- parLapply(cl, c(1:length(bed_gr)), function(y) 
+    make_scaled_coords(bed_gr[y], FinalBins = BedRFinalLength,
+                Extention = BedExtension, Ext_length = c(BedExtLengthLeft, BedExtLengthRight),
+                Ext_value = c(BedExtValLeft,BedExtValRight)))
+}
+if(!BedCustomScaling){
+    # In case of NO custom scaling, we use the extended bed file and scales the entire extended interval as one.
+    res_bin_bed <- parLapply(cl, c(1:length(bed_ext_gr)), function(y) 
+    make_scaled_coords(bed_ext_gr[y], FinalBins = BedRFinalLength,
+                Extention = FALSE)
+}
 stopCluster(cl)
 bed_bin_gr=unlist(as(res_bin_bed, "GRangesList"))
 bed_bin_fname=paste0(strsplit(basename(BedFile), split=".bed")[[1]][1], 
