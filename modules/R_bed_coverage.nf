@@ -6,18 +6,19 @@ process R_BED_COVERAGE {
     
     input:
     path(rfunction)
+    path(rExec)
     tuple val(BedName), path(BedFile), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength), val(BedExtension), val(BedExtValLeft), val(BedExtValRight)
     val(BwName)
     path(BwFile)
 // path genome
-
+///// NEED TO SETUP A R running script with "source" this header.
     script:
     """
     echo "R --no-save --no-restore --slave <<RSCRIPT
         R.Version()
-        RfunctionFile="$rfunction"
-        BedName="${BedName}"
-        BedFile="${BedFile}"
+        RfunctionFile=\"$rfunction\"
+        BedName=\"${BedName}\"
+        BedFile=\"${BedFile}\"
         if(${BedExtension}=='false'){BedExtension=FALSE}
         if(${BedExtension}=='true'){BedExtension=TRUE}
         BedExtLengthLeft=${BedExtLengthLeft}
@@ -29,9 +30,9 @@ process R_BED_COVERAGE {
         bw_fpath=\"$params.input_dir\"
         bw_fnames=c('${BwName.join('\',\'')}')
         bw_names=c('${BwFile.join('\',\'')}')
-
         Threads=20
-    "
-        
+        source(\"$rexec\")
+    " > r_GetCoverage_$BedName\.R
+    bash  r_GetCoverage_$BedName\.R
     """
 }

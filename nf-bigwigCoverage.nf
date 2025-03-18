@@ -41,5 +41,5 @@ Channel
 ch_BED_design_csv.view()
 
 workflow {
-    R_BED_COVERAGE(file(params.rfunction), ch_BED_design_csv,ch_flat_BW.labels.collect(), ch_flat_BW.files.collect() )
+    R_BED_COVERAGE(file(params.rfunction),file(params.rexec), ch_BED_design_csv,ch_flat_BW.labels.collect(), ch_flat_BW.files.collect() )
 }
