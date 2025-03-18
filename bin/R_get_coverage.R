@@ -40,13 +40,13 @@ res4 <- parLapply(cl, bw_fnames , function(x) {
 tt_cov=get_coverage(paste0(bw_fpath,x), op="mean", annotation=bed_bin_fname)# Roughly 4-6min
 data=c();names=c()
 for(i in 1:length(bed_ext_gr)){
-    ovl= which(bed_bin_gr\$name== bed_ext_gr[i]\$name)
+    ovl= which(bed_bin_gr$name== bed_ext_gr[i]$name)
     if (length(ovl) > Bins) {ovl = ovl[as.character(seqnames(bed_bin_gr)[ovl]) == as.character(seqnames(bed_ext_gr[i]))]}
     if(length(ovl)>0){
     score=as.numeric(tt_cov[ovl]\$score)
     if(as.vector(strand(bed_ext_gr[i]))=='-'){score=rev(score)}
     data=rbind(data, score)
-    names=c(names, paste(seqnames(bed_ext_gr[i]), start(bed_ext_gr[i]), end(bed_ext_gr[i]), bed_ext_gr[i]\$name, bed_ext_gr[i]\$score, strand(bed_ext_gr[i]), sep="_"))
+    names=c(names, paste(seqnames(bed_ext_gr[i]), start(bed_ext_gr[i]), end(bed_ext_gr[i]), bed_ext_gr[i]$name, bed_ext_gr[i]$score, strand(bed_ext_gr[i]), sep="_"))
     }
 }
 rownames(data)=names
