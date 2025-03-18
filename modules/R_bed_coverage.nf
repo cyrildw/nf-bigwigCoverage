@@ -33,6 +33,7 @@ process R_BED_COVERAGE {
         bw_names=c('${BwFile.join('\',\'')}')
         Threads=20
         source(\\"$rExec\\")
+        RSCRIPT
     " > r_GetCoverage_$BedName
     bash  r_GetCoverage_$BedName
     """
