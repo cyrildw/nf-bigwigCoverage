@@ -15,7 +15,7 @@ process R_BED_COVERAGE {
 ///////// ADD THE OUTPUT NAMES
     script:
     """
-    echo "R --no-save --no-restore --slave <<RSCRIPT
+    echo "
         R.Version()
         RfunctionFile=\\"$rfunction\\"
         BedName=\\"${BedName}\\"
@@ -33,8 +33,7 @@ process R_BED_COVERAGE {
         bw_names=c('${BwFile.join('\',\'')}')
         Threads=20
         source(\\"$rExec\\")
-        RSCRIPT
-    " > r_GetCoverage_$BedName
-    bash  r_GetCoverage_$BedName
+    "> r_GetCoverage_$BedName
+    Rscript  r_GetCoverage_$BedName
     """
 }
