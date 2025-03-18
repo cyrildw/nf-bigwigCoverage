@@ -12,6 +12,7 @@ process R_BED_COVERAGE {
     path(BwFile)
 // path genome
 ///// NEED TO SETUP A R running script with "source" this header.
+///////// ADD THE OUTPUT NAMES
     script:
     """
     echo "R --no-save --no-restore --slave <<RSCRIPT
