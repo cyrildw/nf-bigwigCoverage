@@ -13,7 +13,7 @@ process R_BED_COVERAGE {
     path(BwFile)
 
     output:
-    tuple path($tag_name".ext.bed"), path($tag_name".avg_density.tsv"), path($tag_name".binned_density.R")
+    tuple val(BedName), path($tag_name".ext.bed"), path($tag_name".avg_density.tsv"), path($tag_name".binned_density.R")
     
     ////// Need to define the output names.
     script:
