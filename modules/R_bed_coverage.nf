@@ -2,6 +2,7 @@ process R_BED_COVERAGE {
     label 'multiCpu'
     cpus 20
     memory '60 GB'
+    queue 'run16'
     tag "${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}Vl${BedExtValLeft}Vr${BedExtValRight}"
     
     publishDir "${params.outdir}/${params.name}/BigWigCoverage/", mode: 'copy' //params.publish_dir_mode,
