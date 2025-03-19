@@ -14,8 +14,6 @@ process R_BED_COVERAGE {
 
     ////// Need to define the output names.
     script:
-    //def tag_name = ${BedName}+"_Ext"+${BedExtension}+"Scal"+${BedCustomScaling}+"FL"+${BedRFinalLength}+"L"+${BedExtLengthLeft}+"R"+${BedExtLengthRight}+
-    //            "Vl"+${BedExtValLeft}+'Vr'+${BedExtValRight}
     def tag_name="${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}Vl${BedExtValLeft}Vr${BedExtValRight}"
     """
     echo "
@@ -23,10 +21,8 @@ process R_BED_COVERAGE {
         RfunctionFile=\\"$rfunction\\"
         BedName=\\"${BedName}\\"
         BedFile=\\"${BedFile}\\"
-        if('${BedExtension}'=='false'){BedExtension=FALSE}
-        if('${BedExtension}'=='true'){BedExtension=TRUE}
-        if('${BedCustomScaling}'=='false'){BedCustomScaling=FALSE}
-        if('${BedCustomScaling}'=='true'){BedCustomScaling=TRUE}
+        if('${BedExtension}'=='true'){BedExtension=TRUE}else{BedExtension=FALSE}
+        if('${BedCustomScaling}'=='true'){BedCustomScaling=TRUE}else{BedCustomScaling=FALSE}
         BedExtLengthLeft=${BedExtLengthLeft}
         BedExtLengthRight=${BedExtLengthRight}
         BedRFinalLength=${BedRFinalLength}
