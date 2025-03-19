@@ -1,7 +1,7 @@
 ### With the new duplicate name checking, need to verify if in the coverage per bin we still need to make the verification.
 ###
 params=c(BedExtLengthLeft, BedExtLengthRight, BedRFinalLength, BedExtValLeft, BedExtValRight)
-for(p in in params){if(is.null(p) | !is.numeric(p) | p<0 | !is.finite(p) | is.na(p)){p=0}}
+for(p in params){if(is.null(p) | !is.numeric(p) | p<0 | !is.finite(p) | is.na(p)){p=0}}
 BedExtLengthLeft=params[1]; BedExtLengthRight=params[2]; BedRFinalLength=params[3]; BedExtValLeft=params[4]; BedExtValRight=params[5]
 if(BedExtLengthLeft==0 & BedExtLengthRight==0){BedExtension=FALSE}
 if(BedExtValLeft==0 & BedExtValRight==0){BedCustomScaling=FALSE}
