@@ -1,5 +1,8 @@
 process R_BED_COVERAGE {
     label 'multiCpu'
+    tag_name = "$BedName"+"_Ext"+$BedExtension+"Scal"+$BedCustomScaling+"FL"+$BedRFinalLength+"L"+$BedExtLengthLeft+"R"+$BedExtLengthRight+
+                "Vl"+$BedExtValLeft+'Vr'+$BedExtValRight
+    tag $tag_name
     //tag "$BedName:$BedExtension-$BedExtLengthLeft:$BedExtLengthRight"
     
     //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
@@ -10,9 +13,9 @@ process R_BED_COVERAGE {
     tuple val(BedName), path(BedFile),val(BedExtension),val(BedCustomScaling), val(BedExtLengthLeft), val(BedExtLengthRight), val(BedRFinalLength),  val(BedExtValLeft), val(BedExtValRight)
     val(BwName)
     path(BwFile)
-// path genome
-///// NEED TO SETUP A R running script with "source" this header.
-///////// ADD THE OUTPUT NAMES
+
+
+/////// Need to define the output names.
     script:
     """
     echo "
@@ -29,10 +32,10 @@ process R_BED_COVERAGE {
         BedRFinalLength=${BedRFinalLength}
         BedExtValLeft=${BedExtValLeft}
         BedExtValRight=${BedExtValRight}
+        Output_prefix=$tag_name
 
-        bw_fpath=\\"$params.input_dir\\"
-        bw_fnames=c('${BwName.join('\',\'')}')
-        bw_names=c('${BwFile.join('\',\'')}')
+        bw_fnames=c('${BwFile.join('\',\'')}')
+        bw_names=c('${BwName.join('\',\'')}')
         Threads=20
         source(RfunctionFile)
         source(\\"$rExec\\")
