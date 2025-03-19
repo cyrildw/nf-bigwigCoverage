@@ -14,8 +14,10 @@ process R_BED_COVERAGE {
 
     ////// Need to define the output names.
     script:
-    def tag_name = ${BedName}+"_Ext"+${BedExtension}+"Scal"+${BedCustomScaling}+"FL"+${BedRFinalLength}+"L"+${BedExtLengthLeft}+"R"+${BedExtLengthRight}+
-                "Vl"+${BedExtValLeft}+'Vr'+${BedExtValRight}
+    //def tag_name = ${BedName}+"_Ext"+${BedExtension}+"Scal"+${BedCustomScaling}+"FL"+${BedRFinalLength}+"L"+${BedExtLengthLeft}+"R"+${BedExtLengthRight}+
+    //            "Vl"+${BedExtValLeft}+'Vr'+${BedExtValRight}
+    def tag_name="${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}
+                Vl${BedExtValLeft}Vr${BedExtValRight}"
     """
     echo "
         R.Version()
