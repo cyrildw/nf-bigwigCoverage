@@ -16,8 +16,7 @@ process R_BED_COVERAGE {
     script:
     //def tag_name = ${BedName}+"_Ext"+${BedExtension}+"Scal"+${BedCustomScaling}+"FL"+${BedRFinalLength}+"L"+${BedExtLengthLeft}+"R"+${BedExtLengthRight}+
     //            "Vl"+${BedExtValLeft}+'Vr'+${BedExtValRight}
-    def tag_name="${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}
-                Vl${BedExtValLeft}Vr${BedExtValRight}"
+    def tag_name="${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}Vl${BedExtValLeft}Vr${BedExtValRight}"
     """
     echo "
         R.Version()
