@@ -33,7 +33,7 @@ process R_BED_COVERAGE {
         BedExtValLeft=${BedExtValLeft}
         BedExtValRight=${BedExtValRight}
         Output_prefix=\\"$tag_name\\"
-
+        tmp_dir=\\"${workflow.workDir}\\"
         bw_fnames=c('${BwFile.join('\',\'')}')
         bw_names=c('${BwName.join('\',\'')}')
         Threads=${task.cpus}
