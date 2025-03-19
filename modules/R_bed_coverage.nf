@@ -1,8 +1,6 @@
 process R_BED_COVERAGE {
     label 'multiCpu'
-    tag_name = "$BedName"+"_Ext"+$BedExtension+"Scal"+$BedCustomScaling+"FL"+$BedRFinalLength+"L"+$BedExtLengthLeft+"R"+$BedExtLengthRight+
-                "Vl"+$BedExtValLeft+'Vr'+$BedExtValRight
-    tag $tag_name
+    
     //tag "$BedName:$BedExtension-$BedExtLengthLeft:$BedExtLengthRight"
     
     //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
@@ -14,7 +12,9 @@ process R_BED_COVERAGE {
     val(BwName)
     path(BwFile)
 
-
+    tag_name = $BedName+"_Ext"+$BedExtension+"Scal"+$BedCustomScaling+"FL"+$BedRFinalLength+"L"+$BedExtLengthLeft+"R"+$BedExtLengthRight+
+                "Vl"+$BedExtValLeft+'Vr'+$BedExtValRight
+    tag $tag_name
 /////// Need to define the output names.
     script:
     """
