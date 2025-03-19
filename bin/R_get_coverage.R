@@ -44,7 +44,7 @@ cat(paste("#### Bed bined start", date(), "####", "", sep="\n"))
 system(paste0("ln -s ",RfunctionFile, " MyFunctionsToLoad.R "))
 cl=makeCluster(Threads)
 clusterEvalQ(cl, source("MyFunctionsToLoad.R"))
-clusterExport(cl, c("bed_gr","BedRFinalLength","BedExtLengthLeft", "BedExtension",
+clusterExport(cl, c("bed_gr","bed_ext_gr","BedRFinalLength","BedExtLengthLeft", "BedExtension",
                     "BedExtLengthRight", "BedExtValLeft","BedExtValRight"))
 if(BedCustomScaling){
     # In case of custom scaling, we use the initial bed and scales the extentions differently
