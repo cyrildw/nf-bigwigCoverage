@@ -1,27 +1,33 @@
 ### With the new duplicate name checking, need to verify if in the coverage per bin we still need to make the verification.
 ###
-#Importing bed and filtering
+
+#Importing bed 
 bed_gr=import(BedFile)
+
+# Adding names to the intervals if not present initially
 if(is.null(bed_gr$name)){
     bed_gr$name=paste0("feature_", c(1:length(bed_gr)))
 } else { 
-    for(i in unique(bed_gr$name[duplicated(bed_gr$name)])){a=which(bed_gr$name==i); for(j in 2:length(a)){bed_gr$name[a[j]]=paste(i, j, sep="-")}} 
+    nb_dup=length(duplicated(bed_gr$name))
+    # Editing names so that there are no duplicates
+    if(nb_dup>0){
+        cat(paste0("ATTENTION, ", nb_dup, " features were carring duplicated names. Those will be renamed uniquely"))
+        for(i in unique(bed_gr$name[duplicated(bed_gr$name)])){a=which(bed_gr$name==i); for(j in 2:length(a)){bed_gr$name[a[j]]=paste(i, j, sep="-")}} 
+    }
 }
-
+# Adding a 0 score if not present initially
 if(is.null(bed_gr$score)){bed_gr$score=0}
 
-bed_ext_gr=bed_gr
 
 #Creating GR bed object with extended coordinates
+bed_ext_gr=bed_gr
 if(BedExtension){
     start(bed_ext_gr)=start(bed_gr)-1-BedExtLengthLeft
     if(sum(start(bed_ext_gr)<1)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<1), ' invervals are out of chromosomal range (start)')}
     start(bed_ext_gr)[start(bed_ext_gr)<1] = 1
     end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 }
-bed_ext_basename=paste0(strsplit(basename(BedFile), split=".bed")[[1]][1], 
-                    '_Ex', BedExtension,'L',BedExtLengthLeft, 'R', BedExtLengthRight)
-bed_ext_fname=paste0(bed_ext_basename,".bed")
+bed_ext_fname=paste0(Output_prefix,".ext.bed")
 export.bed(bed_ext_gr,con=bed_ext_fname)
 
 #Getting average density per interval
@@ -35,7 +41,7 @@ stopCluster(cl)
 names(mean_per_interval)=bw_names
 tab_mean_per_interval=do.call(cbind, mean_per_interval)
 rownames(tab_mean_per_interval)=bed_ext_gr$name
-write.table(x=tab_mean_per_interval, file=paste0(bed_ext_basename, '.avg_density.tsv'), quote=FALSE, row.names=TRUE, 
+write.table(x=tab_mean_per_interval, file=paste0(Output_prefix, '.avg_density.tsv'), quote=FALSE, row.names=TRUE, 
 col.names=TRUE, sep="\t")
 
 cat(paste("#### Bed bined start", date(), "####", "", sep="\n"))
@@ -62,9 +68,7 @@ if(!BedCustomScaling){
 }
 stopCluster(cl)
 bed_bin_gr=unlist(as(res_bin_bed, "GRangesList"))
-bed_bin_fname=paste0(strsplit(basename(BedFile), split=".bed")[[1]][1], 
-                    '_Ex', BedExtension,'L',BedExtLengthLeft, 'R', BedExtLengthRight,
-                    'Vl',BedExtValLeft,'Vr',BedExtValRight, ".bed")
+bed_bin_fname=paste0(Output_prefix, ".binned.bed")
 export.bed(bed_bin_gr,con=bed_bin_fname)
 
 cat(paste("#### Bed bined end", date(), "####", "", sep="\n"))
@@ -77,7 +81,7 @@ DSdata=list()
 cl=makeCluster(Threads)
 clusterEvalQ(cl, {library(GenomicRanges); library(megadepth)})
 clusterExport(cl, c("bw_fnames", "bw_names", "bed_bin_fname", "bed_bin_gr", "bed_ext_gr", "Bins"))
-res4 <- parLapply(cl, bw_fnames , function(x) {  
+res_bin_density <- parLapply(cl, bw_fnames , function(x) {  
 tt_cov=get_coverage(paste0(x), op="mean", annotation=bed_bin_fname)# Megadepth function to get mean coverage per interval
 data=c();names=c()
 for(i in 1:length(bed_ext_gr)){
@@ -98,6 +102,6 @@ return(data)
 })
 stopCluster(cl)
 cat(paste("#### end", date(), "####", "", sep="\n"))
-names(res4)=bw_names
-bedData=res4
-save(bedData, file=paste0(BedName,".binned.R"))
+names(res_bin_density)=bw_names
+bedData=res_bin_density
+save(bedData, file=paste0(Output_prefix,".binned_density.R"))

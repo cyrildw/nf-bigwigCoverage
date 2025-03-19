@@ -1,9 +1,9 @@
 process R_BED_COVERAGE {
     label 'multiCpu'
     
-    tag "${BedName}"
+    tag "${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}Vl${BedExtValLeft}Vr${BedExtValRight}"
     
-    //publishDir "${params.outdir}/${params.name}/Coverage", mode: 'copy', //params.publish_dir_mode,
+    publishDir "${params.outdir}/${params.name}/${tag_name}/", mode: 'copy', //params.publish_dir_mode,
     
     input:
     path(rfunction)
@@ -12,6 +12,7 @@ process R_BED_COVERAGE {
     val(BwName)
     path(BwFile)
 
+    
     ////// Need to define the output names.
     script:
     def tag_name="${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}Vl${BedExtValLeft}Vr${BedExtValRight}"
