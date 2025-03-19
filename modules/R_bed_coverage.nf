@@ -3,7 +3,7 @@ process R_BED_COVERAGE {
     
     tag "${BedName}_Ext${BedExtension}Scal${BedCustomScaling}FL${BedRFinalLength}L${BedExtLengthLeft}R${BedExtLengthRight}Vl${BedExtValLeft}Vr${BedExtValRight}"
     
-    publishDir "${params.outdir}/${params.name}/${tag_name}/", mode: 'copy' //params.publish_dir_mode,
+    publishDir "${params.outdir}/${params.name}/BigWigCoverage/", mode: 'copy' //params.publish_dir_mode,
     
     input:
     path(rfunction)
