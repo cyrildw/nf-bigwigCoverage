@@ -32,7 +32,7 @@ process R_BED_COVERAGE {
         BedRFinalLength=${BedRFinalLength}
         BedExtValLeft=${BedExtValLeft}
         BedExtValRight=${BedExtValRight}
-        Output_prefix=$tag_name
+        Output_prefix=\\"$tag_name\\"
 
         bw_fnames=c('${BwFile.join('\',\'')}')
         bw_names=c('${BwName.join('\',\'')}')
