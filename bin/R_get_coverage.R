@@ -31,9 +31,9 @@ if(is.null(bed_gr$score)){bed_gr$score=0}
 bed_ext_gr=bed_gr
 if(BedExtension){
     start(bed_ext_gr)=start(bed_gr)-1-BedExtLengthLeft
-    if(sum(start(bed_ext_gr)<1)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<1), ' invervals are out of chromosomal range (start)')}
-    start(bed_ext_gr)[start(bed_ext_gr)<1] = 1
-    end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
+    if(sum(start(bed_ext_gr)<0)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<0), ' invervals are out of chromosomal range (start)')}
+    bed_ext_gr[start(bed_ext_gr)<0] <- null
+    #end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 }
 bed_ext_fname=paste0(Output_prefix,".ext.bed")
 export.bed(bed_ext_gr,con=bed_ext_fname)
