@@ -16,10 +16,10 @@ bed_gr=import(BedFile)
 if(is.null(bed_gr$name)){
     bed_gr$name=paste0("feature_", c(1:length(bed_gr)))
 } else { 
-    nb_dup=length(duplicated(bed_gr$name))
+    nb_dup=sum(duplicated(bed_gr$name))
     # Editing names so that there are no duplicates
     if(nb_dup>0){
-        cat(paste0("ATTENTION, ", nb_dup, " features were carring duplicated names. Those will be renamed uniquely"))
+        cat(paste0("##ATTENTION, ", nb_dup, " features were carring duplicated names. Those will be renamed uniquely\n"))
         for(i in unique(bed_gr$name[duplicated(bed_gr$name)])){a=which(bed_gr$name==i); for(j in 2:length(a)){bed_gr$name[a[j]]=paste(i, j, sep="-")}} 
     }
 }
@@ -32,9 +32,10 @@ bed_ext_gr=bed_gr
 if(BedExtension){
     start(bed_ext_gr)=start(bed_gr)-1-BedExtLengthLeft
     if(sum(start(bed_ext_gr)<0)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<0), ' invervals are out of chromosomal range (start)')}
-    bed_ext_gr[start(bed_ext_gr)<0] <- NULL
-    #end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
+    start(bed_ext_gr)[start(bed_ext_gr)<0] = 0
+    end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 }
+bed_ext_gr=bed_ext_gr[start(bed_ext_gr)>0]
 bed_ext_fname=paste0(Output_prefix,".ext.bed")
 export.bed(bed_ext_gr,con=bed_ext_fname)
 
