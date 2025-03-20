@@ -32,7 +32,7 @@ bed_ext_gr=bed_gr
 if(BedExtension){
     start(bed_ext_gr)=start(bed_gr)-1-BedExtLengthLeft
     if(sum(start(bed_ext_gr)<0)>0){paste0("Attention, at least ", sum(start(bed_ext_gr)<0), ' invervals are out of chromosomal range (start)')}
-    bed_ext_gr[start(bed_ext_gr)<0] <- null
+    bed_ext_gr[start(bed_ext_gr)<0] <- NULL
     #end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 }
 bed_ext_fname=paste0(Output_prefix,".ext.bed")
