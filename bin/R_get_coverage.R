@@ -36,12 +36,14 @@ if(BedExtension){
     end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 }
 ### Revmoving intervals too close to the seq_id start
+if(sum(start(bed_ext_gr)==0)>0){ cat(paste0("##ATTENTION, ", sum(start(bed_ext_gr)==0)>0, " features were too close to seq_id start, discarding them\n"))}
 bed_gr=bed_gr[start(bed_ext_gr)>0]
 bed_ext_gr=bed_ext_gr[start(bed_ext_gr)>0]
 bed_ext_fname=paste0(Output_prefix,".ext.bed")
 export.bed(bed_ext_gr,con=bed_ext_fname)
 
 #Getting average density per interval
+cat(paste0("#### Getting average density BEGIN => ", date()))
 cl=makeCluster(Threads)
 clusterEvalQ(cl, {library(GenomicRanges); library(megadepth)})
 clusterExport(cl, c("bw_fnames", "bw_names", "bed_ext_fname","bed_ext_gr"))
@@ -54,9 +56,9 @@ tab_mean_per_interval=do.call(cbind, mean_per_interval)
 rownames(tab_mean_per_interval)=bed_ext_gr$name
 write.table(x=tab_mean_per_interval, file=paste0(Output_prefix, '.avg_density.tsv'), quote=FALSE, row.names=TRUE, 
 col.names=TRUE, sep="\t")
+cat(paste0("#### Getting average density BEENDGIN => ", date()))
 
-cat(paste("#### Bed bined start", date(), "####", "", sep="\n"))
-
+cat(paste0("#### Creating Binned bed BEGIN => ", date()))
 #Creating GR bined bed object with extended coordinates according to configuration (Takes a bit of time)+
 system(paste0("ln -s ",RfunctionFile, " MyFunctionsToLoad.R "))
 cl=makeCluster(Threads)
@@ -82,10 +84,8 @@ bed_bin_gr=unlist(as(res_bin_bed, "GRangesList"))
 bed_bin_fname=paste0(Output_prefix, ".binned.bed")
 export.bed(bed_bin_gr,con=bed_bin_fname)
 
-cat(paste("#### Bed bined end", date(), "####", "", sep="\n"))
-
 # Getting coverage from bigwig files on binned coordinates
-
+cat(paste0("#### Getting Binned density BEGIN => ", date()))
 Bins=BedRFinalLength
 DScov=list()
 DSdata=list()
@@ -112,7 +112,7 @@ rownames(data)=names
 return(data)
 })
 stopCluster(cl)
-cat(paste("#### end", date(), "####", "", sep="\n"))
+cat(paste0("#### Getting Binned density END => ", date()))
 names(res_bin_density)=bw_names
 bedData=res_bin_density
 save(bedData, file=paste0(Output_prefix,".binned_density.R"))
