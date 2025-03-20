@@ -35,6 +35,8 @@ if(BedExtension){
     start(bed_ext_gr)[start(bed_ext_gr)<0] = 0
     end(bed_ext_gr)=end(bed_gr)+BedExtLengthRight
 }
+### Revmoving intervals too close to the seq_id start
+bed_gr=bed_gr[start(bed_ext_gr)>0]
 bed_ext_gr=bed_ext_gr[start(bed_ext_gr)>0]
 bed_ext_fname=paste0(Output_prefix,".ext.bed")
 export.bed(bed_ext_gr,con=bed_ext_fname)
